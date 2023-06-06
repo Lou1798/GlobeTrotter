@@ -1,6 +1,9 @@
 // Import express 
 let express = require('express');
 
+//Import Cors
+var cors = require('cors');
+
 // Initialize the app 
 let app = express();
 

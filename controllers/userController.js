@@ -11,8 +11,7 @@ exports.createUser = async function(req, res) {
         username: req.body.username,
         first_name: req.body.first_name,
         last_name: req.body.last_name,
-        password: req.body.password ,
-        admin: 0
+        password: req.body.password 
     });
     // Save User in the database
     await user.save()

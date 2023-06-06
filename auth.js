@@ -13,7 +13,7 @@ exports.loginUser = async function (req, res) {
         }
         // else, create token
         const jwtExpirySeconds = 3200
-        let payload = { user_id: data.user_id, username:data.username, is_admin: data.is_admin }; // is_admin is a needed to test if user is admin (see isAdmin)
+        let payload = { user_id: data.user_id, username:data.username, admin: data.admin }; // admin is  to test if user is admin (see isAdmin)
         let token = jwt.sign(payload, jwtKey, {
                     algorithm: "HS256",
                     expiresIn: jwtExpirySeconds,
@@ -29,20 +29,18 @@ exports.isAuth = function (req, res, next) {
     // console.log(req.headers.authorization)
     if (typeof req.headers.authorization === "undefined") {
         // no autorization defined so user is not logged in
-        res.status(401).json({ message: "Not Authorized p'tit boulet" });
+        res.status(401).json({ message: "Not Authorized" });
     } else {
         // retrieve token from header
         let token = req.headers.authorization.split(" ")[0];
-        // console.log(token)
-        // console.log(jwtKey)
         // check if token is valid 
         jwt.verify(token, jwtKey, (err, user) => {
             if (err) {  
-                res.status(401).json({ message: "Not Authorized p'tit con" });
+                res.status(401).json({ message: "Not Authorized" });
             } else {
-                req.user = user; // set user in request
-                // console.log(user);
-                return next(); // continue to next middleware (or function)
+                // set user in request
+                req.user = user; 
+                return next(); 
             };
         });
     }
@@ -50,12 +48,12 @@ exports.isAuth = function (req, res, next) {
 
 // Middleware to check if user is admin
 exports.isAdmin = function (req, res, next) {
-    const level = req.user.is_admin; // get is_admin from request (either true or false)
-    // console.log("level", level)
+    // get admin from request (either true or false)
+    const level = req.user.admin; 
     if (level === false) {
-        res.status(418).json({ message: "I'm a teapot" }); // if user is not admin, return error (joke because i like it)
+        //not admin, return error
+        res.status(418).json({ message: "Not Admin" });  
     } else {
-        // console.log("OK, you're good to go")
-        return next(); // else, continue to function
+        return next(); 
     }
 }
