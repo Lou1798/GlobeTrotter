@@ -2,6 +2,7 @@ const db = require('../models/index');
 const Day = db.Day;
 const Voyage = db.Voyage;
 
+//renvoie tous les jours
 exports.days = async function (req, res) {
     await Day.findAll({include: [Voyage]})
         .then(data => {
@@ -13,6 +14,7 @@ exports.days = async function (req, res) {
         })
 }
 
+//crée un nouveau jour
 exports.dayCreate = async function (req, res) {
     let day = Day.build({ title: req.body.title, 
         content: req.body.content, 
@@ -29,6 +31,7 @@ exports.dayCreate = async function (req, res) {
         })
 }
 
+//modifie un jour
 exports.dayUpdate = async function (req, res) {
     if (req.params.day_id > 0) {
         await Day.update(
@@ -46,6 +49,7 @@ exports.dayUpdate = async function (req, res) {
     else res.status(400).json({ message: 'Day not found' })
 }
 
+//supprime un jour
 exports.dayDelete = async function (req, res) {
     if (req.params.day_id) {
         await Note.destroy({ where: { day_id: req.params.day_id } })
@@ -60,6 +64,7 @@ exports.dayDelete = async function (req, res) {
     else res.status(400).json({ message: 'Day not found' })
 }
 
+//renvoie un jour en fonction de son id
 exports.dayDetail = async function (req, res) {
     if (req.params.day_id) {
         await Day.findOne({ where: { day_id: req.params.day_id }, include: [Voyage] })
@@ -73,6 +78,7 @@ exports.dayDetail = async function (req, res) {
     else res.status(400).json({ message: 'Day not found' })
 }
 
+//permet de renvoier les jours correspondant à un paramètre
 // const { Op } = require("sequelize");
 exports.dayFilter = async function (req, res) {
     let params = {}; 

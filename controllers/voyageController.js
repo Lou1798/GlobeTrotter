@@ -5,7 +5,7 @@ const User = db.User;
 
 
 
-
+//renvoie tous les voyages
 exports.voyages = async function (req, res) {
     await Voyage.findAll()
         .then(data => {
@@ -18,6 +18,7 @@ exports.voyages = async function (req, res) {
     
 }
 
+//crée un nouveau voyage
 exports.voyageCreate = async (req, res) => {
     let voyage = Voyage.build({ name: req.body.name, 
         user_id: req.body.user_id })
@@ -31,6 +32,7 @@ exports.voyageCreate = async (req, res) => {
         })
 }
 
+//modifie un voyage
 exports.voyageUpdate = async function (req, res) {
     if (req.params.voyage_id > 0) {
         await Voyage.update(
@@ -49,6 +51,7 @@ exports.voyageUpdate = async function (req, res) {
     else res.status(400).json({ message: 'Voyage not found' })
 }
 
+//supprime un voyage
 exports.voyageDelete = async function (req, res) {
     if (req.params.category_id) {
         
@@ -64,6 +67,7 @@ exports.voyageDelete = async function (req, res) {
     else res.status(400).json({ message: 'Voyage not found' })
 }
 
+//renvoie un voyage en fonction de son id
 exports.voyageDetail = async function (req, res) {
     if (req.params.voyage_id) {
         await Voyage.findOne({ where: { voyage_id: req.params.voyage_id } })
@@ -77,6 +81,7 @@ exports.voyageDetail = async function (req, res) {
     else res.status(400).json({ message: 'Voyage not found' })
 }
 
+//renvoie les voyages correspondant à un paramètre
 // const { Op } = require("sequelize");
 exports.voyageFilter = async function (req, res) {
     let params = {};
