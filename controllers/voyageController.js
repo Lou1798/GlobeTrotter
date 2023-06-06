@@ -1,17 +1,10 @@
 const db = require('../models/index');
 const Voyage = db.Voyage;
 const Day =  db.Day;
+const User = db.User;
 
-exports.dayLink = async function (req, res) {
-    await Voyage.findAll({ include: Day,  where: { voyage_id: req.params.voyage_id } })
-        .then(data => {
-            console.log("All voyages:", JSON.stringify(data, null, 2));
-            res.json(data);
-        })
-        .catch(err => {
-            res.status(500).json({ message: err.message })
-        })
-}
+
+
 
 exports.voyages = async function (req, res) {
     await Voyage.findAll()
@@ -58,6 +51,7 @@ exports.voyageUpdate = async function (req, res) {
 
 exports.voyageDelete = async function (req, res) {
     if (req.params.category_id) {
+        
         await Voyage.destroy({ where: { voyage_id: req.params.voyage_id } })
             .then(data => {
                 if (data == 0) res.status(400).json({ message: 'Not found' });
@@ -86,7 +80,7 @@ exports.voyageDetail = async function (req, res) {
 // const { Op } = require("sequelize");
 exports.voyageFilter = async function (req, res) {
     let params = {};
-    Object.entries(req.body).forEach(([key, value]) => {
+    Object.entries(req.query).forEach(([key, value]) => {
         params[key] = value;
 
     });

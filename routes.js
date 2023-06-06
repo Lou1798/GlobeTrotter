@@ -12,12 +12,11 @@ router.post('/login', auth.loginUser);
 
 router.get('/', (req,res) => res.redirect('/voyages'));
 
-router.get('/voyages', auth.isAuth, voyageController.voyages);
 router.post('/voyage', auth.isAuth, voyageController.voyageCreate);
-router.put('/voyage/:voyage_id', auth.isAuth, voyageController.voyageUpdate);
+router.put('/voyage/:voyage_id', voyageController.voyageUpdate);
 router.delete('/voyage/:voyage_id', auth.isAuth, voyageController.voyageDelete);
-router.get('/voyage/:voyage_id', auth.isAuth, voyageController.voyageDetail);
-router.post('/voyage/search', auth.isAuth, voyageController.voyageFilter);
+router.get('/voyage/:voyage_id', voyageController.voyageDetail);
+router.get('/voyages', voyageController.voyageFilter);
 
 router.get('/days', auth.isAuth, dayController.days);
 router.post('/day', auth.isAuth, dayController.dayCreate);

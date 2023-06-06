@@ -3,16 +3,19 @@ const User = db.User;
 
 exports.createUser = async function(req, res) {
     // Validate request
+    
     if (Object.keys(req.body).length === 0) { // checks if body is not empty
-        res.status(400).json({ message: "Content cannot be empty!" });
+        return res.status(400).json({ message: "Content cannot be empty!" });
     };
+    console.log(req.body);
     // Create a User (non-persistent)
     let user = User.build({
         username: req.body.username,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
         password: req.body.password 
     });
+    console.log(user);
     // Save User in the database
     await user.save()
         .then(data => {
@@ -21,4 +24,6 @@ exports.createUser = async function(req, res) {
         .catch(err => {
             res.status(500).json({ message: "Sorry, something went wrong..." }); 
         });
+
+        
 };
