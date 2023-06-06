@@ -1,15 +1,25 @@
 const db = require('../models/index');
 const User = db.User;
 
-exports.login = async function (req, res, next) {
-    const jwt = require("jsonwebtoken")
-    const jwtKey = "my_secret_key"
-    const jwtExpirySeconds = 300
-
-    let payload = { id: user.iduser };
-    let token = jwt.sign(payload, jwtKey, {
-        algorithm: "HS256",
-        expiresIn: jwtExpirySeconds,
-    })
-    res.cookie("token", token, { httpOnly: true, secure: true, maxAge: jwtExpirySeconds * 1000 });
-    res.json({ "token": token, "maxAge": jwtExpirySeconds * 1000 });}
+exports.createUser = async function(req, res) {
+    // Validate request
+    if (Object.keys(req.body).length === 0) { // checks if body is not empty
+        res.status(400).json({ message: "Content cannot be empty!" });
+    };
+    // Create a User (non-persistent)
+    let user = User.build({
+        username: req.body.username,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        password: req.body.password ,
+        admin: 0
+    });
+    // Save User in the database
+    await user.save()
+        .then(data => {
+            res.json(data); // return json of user
+        })
+        .catch(err => {
+            res.status(500).json({ message: "Sorry, something went wrong..." }); 
+        });
+};

@@ -8,7 +8,8 @@ const Voyage = db.define('voyage', {
         allowNull: false,
         primaryKey: true
     },
-    name: { type: Sequelize.STRING, allowNull: false }
+    name: { type: Sequelize.STRING, allowNull: false },
+    user_id: { type: Sequelize.INTEGER, allowNull: false }
 })
 
 module.exports = Voyage

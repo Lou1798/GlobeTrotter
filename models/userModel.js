@@ -6,13 +6,14 @@ const User = db.define('user', {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
+        unique: true
     },
     lastname: { type: Sequelize.STRING, allowNull: false },
     firstname: { type: Sequelize.STRING, allowNull: false },
     username: { type: Sequelize.STRING, allowNull: false },
     password: { type: Sequelize.STRING, allowNull: false },
-    admin: { type: Sequelize.BOOLEAN, allowNull: false }
+    admin: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false }
 })
 
 module.exports = User

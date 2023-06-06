@@ -26,7 +26,8 @@ exports.voyages = async function (req, res) {
 }
 
 exports.voyageCreate = async (req, res) => {
-    let voyage = Voyage.build({ name: req.body.name })
+    let voyage = Voyage.build({ name: req.body.name, 
+        user_id: req.body.user_id })
     await voyage.save()
         .then(data => {
             console.log(voyage.toJSON());

@@ -14,7 +14,11 @@ exports.days = async function (req, res) {
 }
 
 exports.dayCreate = async function (req, res) {
-    let day = Day.build({ title: req.body.title, content: req.body.content, specifiedTime: req.body.specifiedTime, specifiedLocation: req.body.specifiedLocation, voyage_id: req.body.voyage_id})
+    let day = Day.build({ title: req.body.title, 
+        content: req.body.content, 
+        specifiedTime: req.body.specifiedTime, 
+        specifiedLocation: req.body.specifiedLocation, 
+        voyage_id: req.body.voyage_id})
     await day.save()
         .then(data => {
             console.log(day.toJSON());
