@@ -21,6 +21,7 @@ exports.dayCreate = async function (req, res) {
         specifiedTime: req.body.specifiedTime, 
         specifiedLocation: req.body.specifiedLocation, 
         voyage_id: req.body.voyage_id})
+        
     await day.save()
         .then(data => {
             console.log(day.toJSON());
@@ -34,6 +35,7 @@ exports.dayCreate = async function (req, res) {
 //modifie un jour
 exports.dayUpdate = async function (req, res) {
     if (req.params.day_id > 0) {
+        console.log(req.body);
         await Day.update(
             { title: req.body.title, content: req.body.content, specifiedTime: req.body.specifiedTime, specifiedLocation: req.body.specifiedLocation, voyage_id: req.body.voyage_id},
             { where: { day_id: req.params.day_id } }
@@ -52,7 +54,7 @@ exports.dayUpdate = async function (req, res) {
 //supprime un jour
 exports.dayDelete = async function (req, res) {
     if (req.params.day_id) {
-        await Note.destroy({ where: { day_id: req.params.day_id } })
+        await Day.destroy({ where: { day_id: req.params.day_id } })
             .then(data => {
                 if (data == 0) res.status(400).json({ message: 'Day not found' });
                 else res.json(data);
@@ -82,7 +84,7 @@ exports.dayDetail = async function (req, res) {
 // const { Op } = require("sequelize");
 exports.dayFilter = async function (req, res) {
     let params = {}; 
-    Object.entries(req.body).forEach(([key, value]) => { 
+    Object.entries(req.query).forEach(([key, value]) => { 
         params[key]  = value; 
     });
     await Day.findAll({ where: params  })
