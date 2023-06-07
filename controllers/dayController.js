@@ -35,7 +35,6 @@ exports.dayCreate = async function (req, res) {
 //modifie un jour
 exports.dayUpdate = async function (req, res) {
     if (req.params.day_id > 0) {
-        console.log(req.body);
         await Day.update(
             { title: req.body.title, content: req.body.content, specifiedTime: req.body.specifiedTime, specifiedLocation: req.body.specifiedLocation, voyage_id: req.body.voyage_id},
             { where: { day_id: req.params.day_id } }
