@@ -16,7 +16,7 @@ app.use(cors());
 const Sequelize = require('sequelize');
 const db = require('./db.js');
 
-// Creating all the tables defined in agency
+// Creating all the tables defined
 //db.sync()
 db.sync({alter: true})
 
